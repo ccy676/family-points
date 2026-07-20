@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>家庭积分管理</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <div class="top-bar">
+        <button class="top-avatar" id="top-avatar" aria-label="回到首页">
+          <img class="avatar-img" src="" alt="头像" />
+        </button>
+        <div class="top-info">
+          <div class="top-name" id="top-name">--</div>
+          <div class="top-points" id="top-points">0 积分</div>
+        </div>
+        <div class="top-actions">
+          <button class="top-action" data-tab="records" aria-label="记录">📜</button>
+          <button class="top-action" data-tab="tasks" aria-label="任务">🎨</button>
+          <button class="top-action" data-tab="settings" aria-label="设置">⚙️</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="child-selector-bar" id="child-selector-bar"></div>
+
+    <div class="realm-decorations">
+      <span class="bubble bubble-1"></span>
+      <span class="bubble bubble-2"></span>
+      <span class="bubble bubble-3"></span>
+      <span class="bubble bubble-4"></span>
+      <span class="sea-emoji starfish">⭐</span>
+      <span class="sea-emoji jellyfish">🎐</span>
+      <span class="sea-emoji shell">🐚</span>
+      <span class="sea-emoji coral">🪸</span>
+    </div>
+
+    <main class="app-main">
+      <!-- 首页：完成任务 / 兑换 -->
+      <section id="page-home" class="page active">
+        <div class="task-section">
+          <h2 class="section-title">✨ 赚积分</h2>
+          <div class="category-tabs" data-section="earn"></div>
+          <div class="task-grid" id="earn-grid"></div>
+        </div>
+
+        <div class="task-section">
+          <h2 class="section-title">🎁 花积分 / 兑换</h2>
+          <div class="category-tabs" data-section="consume"></div>
+          <div class="task-grid" id="consume-grid"></div>
+        </div>
+      </section>
+
+      <!-- 积分榜 / 记录 -->
+      <section id="page-records" class="page">
+        <div class="balance-card balance-card--small" id="records-balance">
+          <span class="balance-label">当前积分</span>
+          <span class="balance-value" id="records-balance-value">0</span>
+        </div>
+
+        <div class="stats-grid" id="stats-container"></div>
+
+        <div class="records-header">
+          <h2 class="section-title">📋 积分记录</h2>
+          <span class="records-hint">← 左滑删除</span>
+        </div>
+        <ul class="records-list" id="records-list"></ul>
+        <div class="empty-state" id="records-empty" style="display:none;">
+          <div class="empty-icon">📝</div>
+          <p>暂无记录</p>
+        </div>
+      </section>
+
+      <!-- 任务管理 -->
+      <section id="page-tasks" class="page">
+        <div class="manage-section">
+          <div class="manage-header">
+            <h2 class="section-title">✨ 赚积分任务</h2>
+            <button class="btn-add" data-type="earn">➕ 添加</button>
+          </div>
+          <ul class="manage-list" id="manage-earn-list"></ul>
+        </div>
+
+        <div class="manage-section">
+          <div class="manage-header">
+            <h2 class="section-title">🎁 花积分任务</h2>
+            <button class="btn-add" data-type="consume">➕ 添加</button>
+          </div>
+          <ul class="manage-list" id="manage-consume-list"></ul>
+        </div>
+      </section>
+
+      <!-- 设置 -->
+      <section id="page-settings" class="page">
+        <div class="settings-card">
+          <h2 class="section-title">⚙️ 设置</h2>
+          <button class="settings-btn" id="btn-clear-data" type="button">🗑️ 清除所有数据</button>
+          <div class="settings-version">版本 1.0.0</div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 添加任务模态框 -->
+    <div class="modal-overlay" id="task-modal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-header">
+          <h2 id="modal-title">添加任务</h2>
+          <button class="modal-close" id="modal-close" aria-label="关闭">✕</button>
+        </div>
+        <form class="modal-body" id="task-form">
+          <input type="hidden" id="task-type" />
+
+          <label class="form-label" for="task-name">任务名称</label>
+          <input class="form-input" id="task-name" type="text" placeholder="例如：整理书包" required />
+
+          <label class="form-label" for="task-points">积分</label>
+          <input class="form-input" id="task-points" type="number" min="1" step="1" placeholder="10" required />
+
+          <label class="form-label">选择图标</label>
+          <div class="icon-picker" id="icon-picker"></div>
+          <input type="hidden" id="task-icon" required />
+
+          <label class="form-label">分类</label>
+          <div class="category-picker" id="category-picker"></div>
+          <input type="hidden" id="task-category" required />
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="modal-cancel">取消</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
