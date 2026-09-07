@@ -19,6 +19,7 @@
           <div class="top-points" id="top-points">0 积分</div>
         </div>
         <div class="top-actions">
+          <button class="top-action" data-tab="pet" aria-label="宠物">🐹</button>
           <button class="top-action" data-tab="records" aria-label="记录">📜</button>
           <button class="top-action" data-tab="tasks" aria-label="任务">🎨</button>
           <button class="top-action" data-tab="settings" aria-label="设置">⚙️</button>
@@ -75,6 +76,83 @@
         </div>
       </section>
 
+      <!-- 宠物 -->
+      <section id="page-pet" class="page">
+        <div class="pet-card" id="pet-card">
+          <div class="pet-stage-badge" id="pet-stage-badge">--</div>
+          <div class="pet-scene">
+            <div class="pet-ground"></div>
+            <div class="pet-character" id="pet-character" data-action="">
+              <img class="pet-sprite" id="pet-sprite" src="" alt="宠物" />
+              <div class="pet-body" id="pet-body"></div>
+              <div class="pet-ear pet-ear--left"></div>
+              <div class="pet-ear pet-ear--right"></div>
+              <div class="pet-face">
+                <div class="pet-eyes">
+                  <span class="pet-eye"><span class="pet-eye-shine"></span></span>
+                  <span class="pet-eye"><span class="pet-eye-shine"></span></span>
+                </div>
+                <div class="pet-nose"></div>
+                <div class="pet-mouth">
+                  <div class="pet-tooth pet-tooth--left"></div>
+                  <div class="pet-tooth pet-tooth--right"></div>
+                </div>
+                <div class="pet-whiskers">
+                  <span class="pet-whisker pet-whisker--left"></span>
+                  <span class="pet-whisker pet-whisker--right"></span>
+                </div>
+              </div>
+              <div class="pet-paw pet-paw--left"></div>
+              <div class="pet-paw pet-paw--right"></div>
+              <div class="pet-tail"></div>
+              <div class="pet-crown" id="pet-crown">👑</div>
+            </div>
+            <div class="pet-burrow"></div>
+            <div class="pet-shadow"></div>
+            <div class="pet-food-bag" id="pet-food-bag"><div class="feed-sack"></div></div>
+            <div class="pet-skill-hint" id="pet-skill-hint"></div>
+          </div>
+          <div class="pet-info">
+            <h2 class="pet-name" id="pet-name">--</h2>
+            <div class="pet-stats">
+              <div class="pet-stat">
+                <span class="pet-stat-label">已喂饲料</span>
+                <span class="pet-stat-value" id="pet-feed-bags">0</span>
+              </div>
+              <div class="pet-stat">
+                <span class="pet-stat-label">背包饲料</span>
+                <span class="pet-stat-value" id="pet-feed-inventory">0</span>
+              </div>
+            </div>
+            <div class="pet-progress">
+              <div class="pet-progress-label">
+                <span>成长进度</span>
+                <span id="pet-progress-text">0 / 5</span>
+              </div>
+              <div class="pet-progress-bar">
+                <div class="pet-progress-fill" id="pet-progress-fill"></div>
+              </div>
+            </div>
+          </div>
+          <div class="pet-actions" id="pet-actions">
+            <button class="pet-btn pet-btn--feed" id="btn-feed-pet" type="button">
+              <span class="feed-sack"></span>
+              <span>喂食</span>
+            </button>
+            <button class="pet-btn pet-btn--exchange" id="btn-exchange-feed" type="button">
+              <span>🛒</span>
+              <span>10 积分兑换</span>
+            </button>
+          </div>
+          <div class="pet-skill-list" id="pet-skill-list"></div>
+          <div class="pet-empty" id="pet-empty" style="display:none;">
+            <div class="pet-empty-icon">🐹</div>
+            <p>还没有领养宠物</p>
+            <button class="pet-btn pet-btn--primary" id="btn-adopt-pet" type="button">领养土拨鼠</button>
+          </div>
+        </div>
+      </section>
+
       <!-- 任务管理 -->
       <section id="page-tasks" class="page">
         <div class="manage-section">
@@ -98,6 +176,27 @@
       <section id="page-settings" class="page">
         <div class="settings-card">
           <h2 class="section-title">⚙️ 设置</h2>
+
+          <div class="manage-section">
+            <div class="manage-header">
+              <h2 class="section-title">👶 孩子管理</h2>
+              <button class="btn-add" id="btn-add-child" type="button">➕ 添加</button>
+            </div>
+            <ul class="manage-list" id="children-list"></ul>
+          </div>
+
+          <div class="manage-section">
+            <div class="manage-header">
+              <h2 class="section-title">💾 数据备份</h2>
+            </div>
+            <div class="data-actions">
+              <button class="settings-btn settings-btn--small" id="btn-export-data" type="button">📤 导出数据</button>
+              <button class="settings-btn settings-btn--small settings-btn--import" id="btn-import-data" type="button">📥 导入数据</button>
+              <input type="file" id="import-file-input" accept=".json" style="display:none" />
+            </div>
+            <p class="settings-hint">换设备时先导出，再在新设备上导入即可恢复数据。</p>
+          </div>
+
           <button class="settings-btn" id="btn-clear-data" type="button">🗑️ 清除所有数据</button>
           <div class="settings-version">版本 1.0.0</div>
         </div>
@@ -131,6 +230,54 @@
           <div class="modal-actions">
             <button type="button" class="btn btn-secondary" id="modal-cancel">取消</button>
             <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- 添加/编辑孩子模态框 -->
+    <div class="modal-overlay" id="child-modal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="child-modal-title">
+        <div class="modal-header">
+          <h2 id="child-modal-title">添加孩子</h2>
+          <button class="modal-close" id="child-modal-close" aria-label="关闭">✕</button>
+        </div>
+        <form class="modal-body" id="child-form">
+          <input type="hidden" id="child-id" />
+
+          <label class="form-label" for="child-name">孩子姓名</label>
+          <input class="form-input" id="child-name" type="text" placeholder="例如：小宝" required />
+
+          <label class="form-label">选择头像</label>
+          <div class="avatar-picker" id="avatar-picker"></div>
+          <input type="hidden" id="child-avatar" required />
+
+          <label class="form-label">主题色</label>
+          <div class="color-picker" id="color-picker"></div>
+          <input type="hidden" id="child-color" required />
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="child-modal-cancel">取消</button>
+            <button type="submit" class="btn btn-primary">保存</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- 领养宠物弹窗 -->
+    <div class="modal-overlay" id="pet-adopt-modal" aria-hidden="true">
+      <div class="modal" role="dialog" aria-modal="true" aria-labelledby="pet-adopt-modal-title">
+        <div class="modal-header">
+          <h2 id="pet-adopt-modal-title">领养土拨鼠</h2>
+          <button class="modal-close" id="pet-adopt-modal-close" aria-label="关闭">✕</button>
+        </div>
+        <form class="modal-body" id="pet-adopt-form">
+          <p class="pet-adopt-hint">给这只小土拨鼠起个名字吧，它会一直陪伴 <strong id="pet-adopt-child-name">--</strong> 成长。</p>
+
+          <label class="form-label" for="pet-adopt-name">宠物名字</label>
+          <input class="form-input" id="pet-adopt-name" type="text" placeholder="例如：豆豆" required />
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="pet-adopt-modal-cancel">取消</button>
+            <button type="submit" class="btn btn-primary">确认领养</button>
           </div>
         </form>
       </div>
